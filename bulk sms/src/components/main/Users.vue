@@ -51,37 +51,11 @@
                         <th class="text-left">Status</th>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr v-for="user in usersStore.users">
                             <th>1</th>
-                            <td>Josue Rukundo</td>
-                            <td>Admin</td>
-                            <td>12-03-2022</td>
-                            <td>12-07-2023 12:00</td>
-                            <td>Active</td>
-                            <td><font-awesome-icon icon="gear"></font-awesome-icon></td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Josue Rukundo</td>
-                            <td>Admin</td>
-                            <td>12-03-2022</td>
-                            <td>12-07-2023 12:00</td>
-                            <td>Active</td>
-                            <td><font-awesome-icon icon="gear"></font-awesome-icon></td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Josue Rukundo</td>
-                            <td>Admin</td>
-                            <td>12-03-2022</td>
-                            <td>12-07-2023 12:00</td>
-                            <td>Active</td>
-                            <td><font-awesome-icon icon="gear"></font-awesome-icon></td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Josue Rukundo</td>
-                            <td>Admin</td>
+                            <td>{{ user.name}}</td>
+                            <td v-if="user.isAdmin">Admin</td>
+                            <td v-else>Agent</td>
                             <td>12-03-2022</td>
                             <td>12-07-2023 12:00</td>
                             <td>Active</td>
@@ -100,9 +74,15 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import { onBeforeMount } from 'vue';
 
+import { useUserStore } from '@/stores/usersStore';
 import NewUserVue from '@/components/main/NewUser.vue'
 
+const usersStore = useUserStore();
+onBeforeMount(() => {
+  usersStore.getAllUsers();
+})
 const addUserModalOpen = ref(false)
 </script>
 <style scoped>

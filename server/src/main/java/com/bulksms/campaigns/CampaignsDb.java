@@ -10,7 +10,7 @@ public class CampaignsDb {
     private static ArrayList<Campaign> campaigns = new ArrayList<>();
 
     static {
-        HashMap<String, Integer> schedule = new HashMap<>(0, 0);
+        HashMap<String, Integer> schedule = new HashMap<>(0, 100);
         schedule.put("year", 2023);
         schedule.put("month", 12);
         schedule.put("date", 202123);
