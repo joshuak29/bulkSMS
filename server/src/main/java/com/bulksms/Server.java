@@ -2,6 +2,7 @@ package com.bulksms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,12 +23,6 @@ import com.bulksms.campaigns.CampaignsDb;
 @RestController
 @CrossOrigin
 public class Server {
-
-    // @PostMapping("/users")
-    // public void addUser(@RequestParam String name, @RequestParam boolean isAdmin, @RequestParam String username, @RequestParam String password) {
-    //     User newUser = new User(name, isAdmin, username, password);
-    //     UserDb.addUser(newUser);
-    // }
     @PostMapping("/api/users")
     public void addUser(@RequestBody User user) {
         UserDb.addUser(user);
@@ -43,7 +38,7 @@ public class Server {
         return UserDb.getUser(id);
     }
 
-     @PutMapping("/api/users/id")
+     @PutMapping("/api/users/{id}")
     public void putUser(@PathVariable String id) {
         // Query user with id all details into hashmap and return
     }
@@ -57,12 +52,7 @@ public class Server {
 
     @PostMapping("/api/campaigns")
     public void addCampaign() {
-        HashMap<String, Integer> schedule = new HashMap<>();
-        schedule.put("year", 2023);
-        schedule.put("month", 12);
-        schedule.put("date", 202123);
-
-        User user = UserDb.getUser(0);
+        CampaignsDb.addCampaign();
     }
 
     @GetMapping("/api/campaigns")

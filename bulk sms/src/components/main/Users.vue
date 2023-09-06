@@ -3,7 +3,7 @@
         <teleport to='#app'>
             <NewUserVue @close="addUserModalOpen = false" v-if="addUserModalOpen"/>
         </teleport>
-        <div class="w-full flex flex-col px-8 py-4 gap-12">
+        <div class="w-full flex flex-col px-8 py-4 gap-12" v-if="!userDetailsOpen">
             <!-- heading and header -->
             <div class="w-full flex flex-row justify-between items-center h-16">
                 <div class="font-bold text-3xl text-blue-400">User Management</div>
@@ -51,7 +51,7 @@
                         <th class="text-left">Status</th>
                     </thead>
                     <tbody>
-                        <tr v-for="user in usersStore.users">
+                        <tr v-for="(user, i) in usersStore.users" :key="i">
                             <th>1</th>
                             <td>{{ user.name}}</td>
                             <td v-if="user.isAdmin">Admin</td>
@@ -59,7 +59,7 @@
                             <td>12-03-2022</td>
                             <td>12-07-2023 12:00</td>
                             <td>Active</td>
-                            <td><font-awesome-icon icon="gear"></font-awesome-icon></td>
+                            <td><font-awesome-icon icon="gear" @click="openUserDetails(user)"></font-awesome-icon></td>
                         </tr>
                     </tbody>
 
@@ -70,6 +70,8 @@
                 </div> -->
             </div>
         </div>
+
+        <UserDetailsVue @close="userDetailsOpen=false" :user="currentUser" v-else/>
     </div>
 </template>
 <script setup>
@@ -78,12 +80,23 @@ import { onBeforeMount } from 'vue';
 
 import { useUserStore } from '@/stores/usersStore';
 import NewUserVue from '@/components/main/NewUser.vue'
+import UserDetailsVue from '@/components/main/UserDetails.vue';
+
+const userDetailsOpen = ref(false);
 
 const usersStore = useUserStore();
 onBeforeMount(() => {
   usersStore.getAllUsers();
 })
+
 const addUserModalOpen = ref(false)
+
+const currentUser = ref();
+
+const openUserDetails = (data) => {
+    currentUser.value = data;
+    userDetailsOpen.value = true;
+}
 </script>
 <style scoped>
 .search_icon {

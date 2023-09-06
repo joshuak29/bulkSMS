@@ -34,12 +34,12 @@
                     <th class="text-left">Subject</th>
                     <th class="text-left">Sender ID</th>
                     <th class="text-left">Target</th>
-                    <th class="text-left">Time</th>
+                    <th class="text-left">Schedule</th>
                     <th class="text-left">Status</th>
                     <th class="text-left">Sender</th>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="(campaign, i) in campaignsStore.campaigns" :key="i">
                         <th>1</th>
                         <td>Borrowing Promo</td>
                         <td>MTM</td>
@@ -48,26 +48,6 @@
                         <td>Sent</td>
                         <td>Admin</td>
                         <td><font-awesome-icon icon="pen-to-square" @click="edit"></font-awesome-icon></td>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <td>Borrowing Promo</td>
-                        <td>MTM</td>
-                        <td>MTN MOMO</td>
-                        <td>12-07-2023 12:00</td>
-                        <td>Sent</td>
-                        <td>Admin</td>
-                        <td><font-awesome-icon icon="pen-to-square"></font-awesome-icon></td>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <td>Borrowing Promo</td>
-                        <td>MTM</td>
-                        <td>MTN MOMO</td>
-                        <td>12-07-2023 12:00</td>
-                        <td>Sent</td>
-                        <td>Admin</td>
-                        <td><font-awesome-icon icon="pen-to-square"></font-awesome-icon></td>
                     </tr>
 
                 </tbody>
@@ -82,14 +62,23 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import { onBeforeMount } from 'vue';
+
+import { useCampaignStore } from '@/stores/CampaignsStore.js'
 
 import StatVue from '@/components/main/dashboard/Stat.vue'
 
 const router = useRouter()
 
+const campaignsStore = useCampaignStore();
+
 const edit = () => {
     router.push({name: "new"})
 }
+
+onBeforeMount(() => {
+    campaignsStore.getAllCampaigns();
+})
 </script>
 <style scoped>
 thead th {

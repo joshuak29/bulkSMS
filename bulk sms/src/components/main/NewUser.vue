@@ -1,25 +1,44 @@
 <template>
     <div class="z-20 fixed left-0 top-0 bg-gray-200/95 w-full h-full flex items-center justify-center">
         <!-- <div class="bg-white rounded-lg flex flex-col gap-6 py-6 px-10"> -->
-            <form class="bg-white rounded-lg flex flex-col gap-6 py-6 px-4 w-1/3" @submit.prevent="$emit('close')">
-                <input class="input" name="text" required type="text" placeholder="Full Names">
-                <input class="input" name="text" required type="number" placeholder="Tel">
-                <input class="input" name="text" required type="email" placeholder="email@example.com">
-                <input class="input" name="text" required type="text" placeholder="Username">
-                <input class="input" name="text" required type="password" placeholder="Password">
-                <div class="flex justify-end gap-4">
-                    <button id="cancel" @click="$emit('close')">Cancel</button>
-                    <input type="submit" value="Add">
-                    <!-- <button id="add" type="submit">Add</button> -->
-                </div>
-                <!-- <input class="input" name="text" type="text" placeholder="Search the internet..."> -->
-            </form>
-            
+        <form class="bg-white rounded-lg flex flex-col gap-6 py-6 px-4 w-1/3" @submit.prevent="postUser">
+            <input class="input" name="text" required type="text" placeholder="Full Names" v-model="name">
+            <input class="input" name="text" required type="text" placeholder="Username" v-model="username">
+            <input class="input" name="text" required type="password" placeholder="Password" v-model="password">
+            <label class="font-semibold">
+                <input type="checkbox" name="isAdmin" id="admin" value="Admin" class="mr-2" v-model="isAdmin">
+                Admin</label>
+            <div class="flex justify-end gap-4">
+                <button id="cancel" @click="$emit('close')">Cancel</button>
+                <input type="submit" value="Add">
+                <!-- <button id="add" type="submit">Add</button> -->
+            </div>
+            <!-- <input class="input" name="text" type="text" placeholder="Search the internet..."> -->
+        </form>
+
         <!-- </div> -->
     </div>
 </template>
 <script setup>
+import { ref } from 'vue';
+
+import { useUserStore } from '@/stores/usersStore';
+
 const emits = defineEmits(['close'])
+
+const usersStore = useUserStore();
+
+const name = ref(null);
+const username = ref(null);
+const password = ref(null);
+const isAdmin = ref(false);
+
+const postUser = () => {
+    const user = {name: name.value, username: username.value, password: password.value, isAdmin: isAdmin.value}
+    usersStore.addUser(user);
+
+    emits('close');
+}
 </script>
 <style scoped>
 .input {
@@ -76,4 +95,5 @@ input[type='submit']:hover {
 button:active,
 input[type='submit']:active {
     transform: scale(0.95);
-}</style>
+}
+</style>

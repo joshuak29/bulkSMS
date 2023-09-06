@@ -34,4 +34,8 @@ public class UserDb {
         userCount--;
         return users.remove(id);
     }
+
+    public static void updateUser(int id, User user) {
+        return;
+    }
 }

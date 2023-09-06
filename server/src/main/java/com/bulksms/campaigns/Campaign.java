@@ -3,9 +3,12 @@ package com.bulksms.campaigns;
 import java.time.*;
 import java.util.HashMap;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 import com.bulksms.Message;
 import com.bulksms.users.User;
 
+@EntityScan
 public class Campaign {
     private Message message;
     public String[] numbers;

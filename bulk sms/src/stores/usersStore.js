@@ -8,7 +8,6 @@ export const useUserStore = defineStore('user', () => {
     const getAllUsers = async () => {
         users.value = [];
         const results = await axios.get('http://localhost:8080/api/users');
-        console.log(results)
         results.data.forEach(user => {
             users.value.push(user);
         });
@@ -21,10 +20,12 @@ export const useUserStore = defineStore('user', () => {
 
     const deleteUser = async (id) => {
         await axios.delete(`http://localhost:8080/api/users/${id}`);
+        getAllUsers();
     }
 
-    const addUser = async (data) => {us
+    const addUser = async (data) => {
         await axios.post('http://localhost:8080/api/users', data);
+        getAllUsers();
     }
 
     return { getAllUsers, getUser, deleteUser, addUser, users }
