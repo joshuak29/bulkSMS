@@ -1,23 +1,44 @@
 <template>
     <!-- body below header -->
     <div class="w-full max-h-full">
-        <div class="w-full flex flex-row p-6 gap-6">
+        <form class="w-full flex flex-row p-6 gap-6" @submit.prevent="createNewCampaign">
             <div class="flex flex-col w-3/5 gap-5">
-                <input type="text" placeholder="Sender ID" class="input">
-                <textarea placeholder='Text Message...' cols="30" rows="15" class="text"></textarea>
+                <input type="text" placeholder="Sender ID" class="input" v-model="senderId">
+                <textarea placeholder='Text Message...' cols="30" rows="15" class="text" v-model="textMessage"></textarea>
                 <button>Schedule Send Time</button>
             </div>
             <div class="flex flex-col w-2/5 gap-5 pt-16">
                 <textarea placeholder="Numbers" cols="30" rows="15" class="text"></textarea>
                 <div class="text-right">
-                    <button class="mr-6">SAVE</button>
+                    <input type="submit" class="mr-6" value="Create">
                     <button>CANCEL</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </template>
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+
+import { useCampaignStore } from '@/stores/CampaignsStore';
+
+const campaignStore = useCampaignStore();
+const router = useRouter();
+
+const createNewCampaign = () => {
+    campaignStore.addCampaign({
+        senderId: senderId.value,
+        textMessage: textMessage.value
+    })
+
+    router.push({name: 'history'})
+}
+
+const senderId = ref();
+const textMessage = ref();
+
+
 </script>
 <style scoped>
 .input {

@@ -1,13 +1,13 @@
-package com.bulksms;
+package dev.josue.bulkSMS;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Main {
+public class BulkSmsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Main.class, args);
+		SpringApplication.run(BulkSmsApplication.class, args);
 	}
 
 }

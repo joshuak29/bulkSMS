@@ -40,23 +40,19 @@
                 </thead>
                 <tbody>
                     <tr v-for="(campaign, i) in campaignsStore.campaigns" :key="i">
-                        <th>1</th>
+                        <th>{{ i }}</th>
                         <td>Borrowing Promo</td>
-                        <td>MTM</td>
+                        <td>{{ campaign.message.senderId }}</td>
                         <td>MTN MOMO</td>
                         <td>12-07-2023 12:00</td>
                         <td>Sent</td>
-                        <td>Admin</td>
+                        <td>{{ campaign.sender.username }}</td>
                         <td><font-awesome-icon icon="pen-to-square" @click="edit"></font-awesome-icon></td>
                     </tr>
 
                 </tbody>
 
             </table>
-            <!-- <div class="w-full flex flex-row items-center justify-between px-4 mt-4 text-sm text-gray-500">
-                <div class="text-xs">Show 5 out of 21</div>
-                <div>Joshua</div>
-            </div> -->
         </div>
     </div>
 </template>
