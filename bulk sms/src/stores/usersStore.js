@@ -28,5 +28,13 @@ export const useUserStore = defineStore('user', () => {
         getAllUsers();
     }
 
-    return { getAllUsers, getUser, deleteUser, addUser, users }
+    const updateUser = async (id, user) => {
+        await axios.put('http://localhost:8080/api/users', {
+            id,    
+            user
+        });
+
+    }
+
+    return { getAllUsers, getUser, deleteUser, addUser, updateUser, users }
 })

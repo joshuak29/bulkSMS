@@ -9,13 +9,13 @@
         <form @submit.prevent="" class="flex flex-col gap-4 ml-6">
             <input class="input w-1/2" name="text" required type="text" placeholder="Full Names" v-model="newName">
             <input class="input w-1/2" name="text" required type="text" placeholder="Username" v-model="newUsername">
-            <input class="input w-1/2" name="text" required type="password" placeholder="New password" v-model="newPassword">
-            <input class="input w-1/2" name="text" required type="password" placeholder="Confirm New password" v-model="confirmNewPassword">
+            <input class="input w-1/2" name="text" type="password" placeholder="New password" v-model="newPassword">
+            <input class="input w-1/2" name="text" type="password" placeholder="Confirm New password" v-model="confirmNewPassword">
             <label class="font-semibold mb-4">
                 <input type="checkbox" name="isAdmin" id="admin" value="Admin" class="mr-2" v-model="newIsAdmin">
                 Admin</label>
             <div class="flex justify-end gap-4">
-                <input type="submit" value="Update">
+                <input type="submit" value="Update" @click="updateUser">
                 <button type="button" class="bg-red-500" @click="deactivateUser()">Deactivate</button>
                 <!-- <button id="add" type="submit">Add</button> -->
             </div>
@@ -36,7 +36,16 @@ const newName = ref(props.user.name);
 const newUsername = ref(props.user.username);
 const newPassword = ref();
 const confirmNewPassword = ref();
-const newIsAdmin = ref(props.user.isAdmin);
+const newIsAdmin = ref(props.user.admin);
+
+const updateUser = (id, user) => {
+    userStore.updateUser(props.user.id, {
+        id: props.user.id,
+        name: newName,
+        username: newUsername,
+        password: newPassword || props.user.password
+    })
+}
 
 const emits = defineEmits(['close'])
 

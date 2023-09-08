@@ -5,7 +5,11 @@
             <div class="flex flex-col w-3/5 gap-5">
                 <input type="text" placeholder="Sender ID" class="input" v-model="senderId">
                 <textarea placeholder='Text Message...' cols="30" rows="15" class="text" v-model="textMessage"></textarea>
-                <button>Schedule Send Time</button>
+                <!-- <button>Schedule Send Time</button> -->
+                <label class="font-semibold">
+                    Schedule Time: 
+                    <input placeholder="Schedule time" type="datetime-local" required v-model="scheduleDatetime" class="ml-4 px-3 rounded-md border border-gray-300 font-normal">
+                </label>
             </div>
             <div class="flex flex-col w-2/5 gap-5 pt-16">
                 <textarea placeholder="Numbers" cols="30" rows="15" class="text"></textarea>
@@ -29,7 +33,8 @@ const router = useRouter();
 const createNewCampaign = () => {
     campaignStore.addCampaign({
         senderId: senderId.value,
-        textMessage: textMessage.value
+        textMessage: textMessage.value,
+        schedule: scheduleDatetime.value
     })
 
     router.push({name: 'history'})
@@ -37,8 +42,7 @@ const createNewCampaign = () => {
 
 const senderId = ref();
 const textMessage = ref();
-
-
+const scheduleDatetime = ref();
 </script>
 <style scoped>
 .input {
@@ -78,7 +82,7 @@ const textMessage = ref();
     box-shadow: 0px 0px 20px -18px;
 }
 
-button {
+input[type="submit"], button {
     width: fit-content;
     min-width: 100px;
     height: 45px;
@@ -93,11 +97,11 @@ button {
     font-family: 'Poppins', sans-serif;
 }
 
-button:hover {
+input[type="submit"], button:hover {
     background-color: #F2F2F2;
     box-shadow: 0px 0px 20px -18px;
 }
 
-button:active {
+input[type="submit"], button:active {
     transform: scale(0.95);
 }</style>

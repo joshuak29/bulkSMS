@@ -1,5 +1,6 @@
 package dev.josue.bulkSMS.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -19,8 +20,8 @@ public class Campaign {
     @GeneratedValue
     private int Id;
 
-    @Column
-    private Date schedule;
+    @Column(nullable = false)
+    private LocalDateTime schedule;
 
     @OneToOne
     @JoinColumn(name = "messageId")
@@ -30,16 +31,23 @@ public class Campaign {
     @JoinColumn(name = "userId")
     private User user;
 
+    public Campaign() {}
+    public Campaign(LocalDateTime schedule, Message message, User user) {
+        this.schedule = schedule;
+        this.message = message;
+        this.user = user;
+    }
+
     public int getId() {
         return Id;
     }
 
-    public Date getSchedule() {
+    public LocalDateTime getSchedule() {
         return schedule;
     }
-    public void setSchedule(Date schedule) {
-        this.schedule = schedule;
-    }
+    // public void setSchedule(LocalDateTime schedule, int messageId, int userId) {
+    //     this.schedule = schedule;
+    // }
 
     public Message getMessage() {
         return message;
@@ -48,10 +56,12 @@ public class Campaign {
         this.message = message;
     }
 
-    public Campaign() {}
-    public Campaign(Date schedule, Message message) {
-        this.schedule = schedule;
-        this.message = message;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -90,6 +100,6 @@ public class Campaign {
 
     @Override
     public String toString() {
-        return "Campaign [Id=" + Id + ", schedule=" + schedule + ", message=" + message + "]";
+        return "Campaign [Id=" + Id + ", schedule=" + schedule + ", message=" + message.getText() + ", user=" + user.getUsername() + "]";
     }
 }

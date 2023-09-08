@@ -39,14 +39,14 @@
                     <th class="text-left">Sender</th>
                 </thead>
                 <tbody>
-                    <tr v-for="(campaign, i) in campaignsStore.campaigns" :key="i">
-                        <th>{{ i }}</th>
-                        <td>Borrowing Promo</td>
+                    <tr v-for="campaign in campaignsStore.campaigns" :key="campaign.id">
+                        <th>{{ campaign.id }}</th>
+                        <td>{{ campaign.message.text}}</td>
                         <td>{{ campaign.message.senderId }}</td>
                         <td>MTN MOMO</td>
-                        <td>12-07-2023 12:00</td>
+                        <td>{{ campaign.schedule}}</td>
                         <td>Sent</td>
-                        <td>{{ campaign.sender.username }}</td>
+                        <td>{{ campaign.user.username }}</td>
                         <td><font-awesome-icon icon="pen-to-square" @click="edit"></font-awesome-icon></td>
                     </tr>
 

@@ -16,15 +16,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @Column
+    @Column(nullable = false)
     private String text;
 
-    @Column
+    @Column(nullable = false)
     private String senderId;
-
-    @OneToOne
-    @JoinColumn(name = "campaignId")
-    private Campaign campaign;
     
     public Message() {}
     public Message(String text, String senderId) {
@@ -32,23 +28,26 @@ public class Message {
         this.senderId = senderId;
     }
 
+    
     public int getId() {
         return Id;
     }
-
-    public String getName() {
+    public void setId(int id) {
+        Id = id;
+    }
+    public String getText() {
         return text;
     }
-    public void setName(String text) {
+    public void setText(String text) {
         this.text = text;
     }
-
-    public String getUsername() {
+    public String getSenderId() {
         return senderId;
     }
-    public void setUsername(String senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

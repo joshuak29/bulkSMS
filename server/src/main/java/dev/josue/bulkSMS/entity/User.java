@@ -1,5 +1,6 @@
 package dev.josue.bulkSMS.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -17,19 +18,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private boolean isAdmin;
 
+    @Column(nullable = false)
+    private final LocalDate joined = LocalDate.now();
+
     @OneToMany(mappedBy = "user")
+    @Column(nullable = false)
     private List<Campaign> campaigns;
     
     public User() {}
@@ -66,11 +71,17 @@ public class User {
     }
 
     public boolean isAdmin() {
-        return isAdmin;
+        return this.isAdmin;
     }
-    public void setAdmin(boolean isAdmin) {
+    public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+    public LocalDate getJoined() {
+        return joined;
+    }
+
+
     @Override
     public int hashCode() {
         final int prime = 31;

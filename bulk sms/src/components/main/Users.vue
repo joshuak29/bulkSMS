@@ -54,9 +54,9 @@
                         <tr v-for="(user, i) in usersStore.users" :key="i">
                             <th>1</th>
                             <td>{{ user.name}}</td>
-                            <td v-if="user.isAdmin">Admin</td>
+                            <td v-if="user.admin">Admin</td>
                             <td v-else>Agent</td>
-                            <td>12-03-2022</td>
+                            <td>{{ user.joined }}</td>
                             <td>12-07-2023 12:00</td>
                             <td>Active</td>
                             <td><font-awesome-icon icon="gear" @click="openUserDetails(user)"></font-awesome-icon></td>

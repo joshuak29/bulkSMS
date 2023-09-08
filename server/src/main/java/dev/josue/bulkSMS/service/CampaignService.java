@@ -3,10 +3,12 @@ package dev.josue.bulkSMS.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dev.josue.bulkSMS.entity.Campaign;
 import dev.josue.bulkSMS.repository.CampaignRepository;
 
+@Service
 public class CampaignService {
     
     @Autowired 

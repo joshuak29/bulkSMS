@@ -1,6 +1,5 @@
 package dev.josue.bulkSMS.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,10 @@ public class UserController {
 
     @Autowired
     UserService service;
+
     @PostMapping("/api/users")
-    public void addUser(@RequestBody User user) {
-        service.addUser(user);
+    public User addUser(@RequestBody User user) {
+        return service.addUser(user);
     }
 
     @GetMapping("/api/users")
@@ -37,9 +37,11 @@ public class UserController {
         return service.getUser(id);
     }
 
+    @CrossOrigin
     @PutMapping("/api/users/{id}")
-    public void putUser(@PathVariable String id) {
+    public User putUser(@PathVariable int id, @RequestBody User newUser) {
         // Query user with id all details into hashmap and return
+        return service.updateUser(id, newUser);
     }
 
     @DeleteMapping("/api/users/{id}")
