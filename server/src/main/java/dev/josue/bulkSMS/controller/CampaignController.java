@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,12 +52,20 @@ public class CampaignController {
     }
 
     @GetMapping("/api/campaigns")
-    public List<Campaign> getAllCampaigns() {
-        return service.getAllCampaigns();
+    public ResponseEntity<List<Campaign>> getAllCampaigns() {
+        return new ResponseEntity<List<Campaign>>(service.getAllCampaigns(), HttpStatus.OK);
     }
 
     @GetMapping("/api/campaigns/{id}")
-    public Campaign getCampaign(@PathVariable int id) {
-        return service.getCampaign(id);
+    public ResponseEntity<Campaign> getCampaign(@PathVariable int id) {
+        try {
+            Campaign campaign = service.getCampaign(id);
+            System.out.println(campaign);
+
+            return new ResponseEntity<Campaign>(campaign, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
