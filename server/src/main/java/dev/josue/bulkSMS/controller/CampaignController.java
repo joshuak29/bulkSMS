@@ -20,8 +20,8 @@ import dev.josue.bulkSMS.service.CampaignService;
 import dev.josue.bulkSMS.service.MessageService;
 import dev.josue.bulkSMS.service.UserService;
 
+@CrossOrigin()
 @RestController
-@CrossOrigin
 public class CampaignController {
 
     @Autowired

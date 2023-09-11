@@ -1,8 +1,11 @@
 package dev.josue.bulkSMS.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +26,28 @@ public class UserController {
     UserService service;
 
     @PostMapping("/api/users")
-    public User addUser(@RequestBody User user) {
-        return service.addUser(user);
+    public ResponseEntity<String> addUser(@RequestBody HashMap<String, String> data) {
+        // System.out.println(data);
+        try {
+            String name = data.get("name");
+            String username = data.get("username");
+            String password = data.get("password");
+            String isAdmin = data.get("isAdmin");
+
+            if(name == null || username == null || password == null || isAdmin == null) {
+                throw new IllegalArgumentException("Arguments can't be null");
+            }
+            boolean isAdminBool = Boolean.parseBoolean(isAdmin);
+
+            User user = new User(data.get("name"), data.get("username"), data.get("password"), isAdminBool);
+            service.addUser(user);
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<String>("Bad Request", HttpStatus.BAD_REQUEST);
+        }
+        
     }
 
     @GetMapping("/api/users")
@@ -37,7 +60,6 @@ public class UserController {
         return service.getUser(id);
     }
 
-    @CrossOrigin
     @PutMapping("/api/users/{id}")
     public User putUser(@PathVariable int id, @RequestBody User newUser) {
         // Query user with id all details into hashmap and return

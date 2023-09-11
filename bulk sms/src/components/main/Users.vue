@@ -52,7 +52,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(user, i) in usersStore.users" :key="i">
-                            <th>1</th>
+                            <th>{{ user.id }}</th>
                             <td>{{ user.name}}</td>
                             <td v-if="user.admin">Admin</td>
                             <td v-else>Agent</td>
