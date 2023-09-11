@@ -51,13 +51,20 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/api/users/{id}")
-    public User getUser(@PathVariable int id) {
-        return service.getUser(id);
+    public ResponseEntity<User> getUser(@PathVariable int id) {
+        try {
+            User user = service.getUser(id);
+            System.out.println(user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        } catch(Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/api/users/{id}")
