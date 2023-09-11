@@ -42,4 +42,9 @@ public class UserService {
     public void deleteUser(int id) {
         repo.deleteById(id);
     }
+
+    public void addCredit(int amount, int id) {
+        User user = repo.getReferenceById(id);
+        user.incrementCredit(amount);
+    }
 }

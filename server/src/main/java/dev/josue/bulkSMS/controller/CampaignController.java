@@ -2,6 +2,7 @@ package dev.josue.bulkSMS.controller;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import dev.josue.bulkSMS.entity.User;
 import dev.josue.bulkSMS.service.CampaignService;
 import dev.josue.bulkSMS.service.MessageService;
 import dev.josue.bulkSMS.service.UserService;
+import dev.josue.bulkSMS.utils.CampaignUtils;
 
 @CrossOrigin()
 @RestController
@@ -36,19 +38,29 @@ public class CampaignController {
     UserService userService;
 
     @PostMapping("/api/campaigns")
-    public void addCampaign(@RequestBody Map<String, String> data) {
-        String senderId = data.get("senderId");
-        String text = data.get("textMessage");
-        String schedule = data.get("schedule");
+    public ResponseEntity<Void> addCampaign(@RequestBody HashMap<String, String> data) {
+        try {
+            if (!CampaignUtils.isCampaign(data)) {
+                throw new IllegalArgumentException("Arguments can't be null");
+            }
 
-        Message newMessage = new Message(text, senderId);
-        messageService.createMessage(newMessage); 
-        
-        Message message = messageService.getMessage(newMessage.getId());
-        User user = userService.getUser(1);
+            Message newMessage = new Message(data.get("textMessage"), data.get("senderId"));
+            messageService.createMessage(newMessage);
 
-        Campaign campaign = new Campaign(LocalDateTime.parse(schedule), message, user);
-        service.createCampaign(campaign);
+            Message message = messageService.getMessage(newMessage.getId());
+            User user = userService.getUser(1);
+
+            System.out.println(message);
+            System.out.println(user);
+
+            Campaign campaign = new Campaign(LocalDateTime.parse(data.get("schedule")), message, user);
+            service.createCampaign(campaign);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/api/campaigns")
@@ -67,5 +79,12 @@ public class CampaignController {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("api/campaigns/total")
+    public ResponseEntity<Long> getNumberofCampaigns() {
+        long total = service.numberOfCampaigns();
+        System.out.println(total);
+        return new ResponseEntity<Long>(total, HttpStatus.OK);
     }
 }

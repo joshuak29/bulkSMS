@@ -5,6 +5,7 @@ import axios from 'axios'
 
 export const useCampaignStore = defineStore('campaign', () => {
     const campaigns = ref([]);
+    const totalCampaigns = ref(0);
 
     const getAllCampaigns = async () => {
         campaigns.value = [];
@@ -12,6 +13,7 @@ export const useCampaignStore = defineStore('campaign', () => {
         results.data.forEach(campaign => {
             campaigns.value.push(campaign);
         });
+        getTotalCampaigns();
     };
 
     const getCampaign = async (id) => {
@@ -29,6 +31,10 @@ export const useCampaignStore = defineStore('campaign', () => {
         campaigns.value = [];
         getAllCampaigns();
     }
+    const getTotalCampaigns = async () => {
+        const results = await axios.get('http://localhost:8080/api/campaigns/total');
+        totalCampaigns.value = results.data;
+    }
 
-    return { getAllCampaigns, getCampaign, deleteCampaign, addCampaign, campaigns }
+    return { getAllCampaigns, getCampaign, deleteCampaign, addCampaign, getTotalCampaigns, totalCampaigns, campaigns }
 })

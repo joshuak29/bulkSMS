@@ -33,6 +33,9 @@ public class User {
     @Column(nullable = false)
     private final LocalDate joined = LocalDate.now();
 
+    @Column
+    private int credit = 10_000;
+
     @OneToMany(mappedBy = "user")
     @Column(nullable = false)
     private List<Campaign> campaigns;
@@ -81,7 +84,12 @@ public class User {
         return joined;
     }
 
-
+    public int getCredit() {
+        return credit;
+    }
+    public void incrementCredit(int amount) {
+        this.credit += amount;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;

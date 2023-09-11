@@ -35,10 +35,7 @@ public class UserController {
             String username = data.get("username");
             String password = data.get("password");
             String isAdmin = data.get("isAdmin");
-
-            // if (name == null || username == null || password == null || isAdmin == null) {
-            //     throw new IllegalArgumentException("Arguments can't be null");
-            // }
+            
             if(! UserUtils.isUser(data)) {
                 throw new IllegalArgumentException("Arguments can't be null");
             }

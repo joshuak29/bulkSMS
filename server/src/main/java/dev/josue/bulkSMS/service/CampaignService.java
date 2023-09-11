@@ -29,4 +29,8 @@ public class CampaignService {
     public void deleteCampaign(int id) {
         repo.deleteById(id);
     }
+    
+    public long numberOfCampaigns() {
+        return repo.count();
+    }
 }
