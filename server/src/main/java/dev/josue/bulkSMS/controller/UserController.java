@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.josue.bulkSMS.entity.User;
 import dev.josue.bulkSMS.service.UserService;
+import dev.josue.bulkSMS.utils.UserUtils;
+
 
 @RestController
 @CrossOrigin
@@ -34,12 +37,16 @@ public class UserController {
             String password = data.get("password");
             String isAdmin = data.get("isAdmin");
 
-            if(name == null || username == null || password == null || isAdmin == null) {
+            // if (name == null || username == null || password == null || isAdmin == null) {
+            //     throw new IllegalArgumentException("Arguments can't be null");
+            // }
+            if(! UserUtils.isUser(data)) {
                 throw new IllegalArgumentException("Arguments can't be null");
             }
+
             boolean isAdminBool = Boolean.parseBoolean(isAdmin);
 
-            User user = new User(data.get("name"), data.get("username"), data.get("password"), isAdminBool);
+            User user = new User(name, username, password, isAdminBool);
             service.addUser(user);
             return new ResponseEntity<String>("Created", HttpStatus.CREATED);
 
@@ -47,7 +54,7 @@ public class UserController {
             System.out.println(e);
             return new ResponseEntity<String>("Bad Request", HttpStatus.BAD_REQUEST);
         }
-        
+
     }
 
     @GetMapping("/api/users")
@@ -61,20 +68,56 @@ public class UserController {
             User user = service.getUser(id);
             System.out.println(user);
             return new ResponseEntity<User>(user, HttpStatus.OK);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/api/users/{id}")
-    public User putUser(@PathVariable int id, @RequestBody User newUser) {
-        // Query user with id all details into hashmap and return
-        return service.updateUser(id, newUser);
+    public ResponseEntity<Void> putUser(@PathVariable int id, @RequestBody HashMap<String, String> data) {
+        try {
+            String name = data.get("name");
+            String username = data.get("username");
+            String password = data.get("password");
+            String isAdmin = data.get("isAdmin");
+
+            boolean isAdminBool = Boolean.parseBoolean(isAdmin);
+
+            User user = service.getUser(id);
+            System.out.println(user);
+
+            if(!UserUtils.isUser(data)) {
+                throw new IllegalArgumentException("Arguments can't be null");
+            }
+
+            User newUser = new User(name, username, password, isAdminBool);
+
+            service.updateUser(id, newUser);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+
+            if(e instanceof IllegalArgumentException) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
     }
 
     @DeleteMapping("/api/users/{id}")
-    public void deletetUser(@PathVariable int id) {
-        service.deleteUser(id);
+    public ResponseEntity<Void> deletetUser(@PathVariable int id) {
+        try {
+            User user = service.getUser(id);
+            System.out.println(user);
+
+            service.deleteUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
