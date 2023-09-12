@@ -27,6 +27,7 @@ export const useCampaignStore = defineStore('campaign', () => {
     }
 
     const addCampaign = async (data) => {
+        campaigns.value = [];
         await axios.post('http://localhost:8080/api/campaigns', data);
         campaigns.value = [];
         getAllCampaigns();

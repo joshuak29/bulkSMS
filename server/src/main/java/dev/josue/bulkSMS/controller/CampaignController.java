@@ -53,7 +53,7 @@ public class CampaignController {
             System.out.println(message);
             System.out.println(user);
 
-            Campaign campaign = new Campaign(LocalDateTime.parse(data.get("schedule")), message, user);
+            Campaign campaign = new Campaign(LocalDateTime.parse(data.get("schedule")), message, user, data.get("numbers"));
             service.createCampaign(campaign);
             return new ResponseEntity<>(HttpStatus.CREATED);
 

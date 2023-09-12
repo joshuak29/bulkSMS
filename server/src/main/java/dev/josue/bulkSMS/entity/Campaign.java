@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.type.descriptor.jdbc.JsonJdbcType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,10 +38,11 @@ public class Campaign {
     private User user;
 
     public Campaign() {}
-    public Campaign(LocalDateTime schedule, Message message, User user) {
+    public Campaign(LocalDateTime schedule, Message message, User user, String numbers) {
         this.schedule = schedule;
         this.message = message;
         this.user = user;
+        this.numbers = numbers;
     }
 
     public int getId() {
@@ -66,6 +69,13 @@ public class Campaign {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getNumbers() {
+        return numbers;
+    }
+    public void setNumbers(String numbers) {
+        this.numbers = numbers;
     }
 
     @Override
