@@ -1,7 +1,9 @@
 package dev.josue.bulkSMS.service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,18 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return repo.findAll();
+    }
+
+    public Object[] getByName(String name) {
+        List<User> byName =  repo.findByName(name);
+        // List<User> byUname = repo.findbyUsername(name);
+
+        Set<User> users = new HashSet<User>();
+
+        users.addAll(byName);
+        // users.addAll(byUname);
+
+        return users.toArray();
     }
 
     public User updateUser(int id, User newUser) {

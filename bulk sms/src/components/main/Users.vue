@@ -9,15 +9,15 @@
                 <div class="font-bold text-3xl text-blue-400">User Management</div>
                 <div class="h-full items-center flex justify-end gap-10">
                     <!-- search user -->
-                    <div
+                    <form @submit.prevent="searchUsers"
                         class="inputBox_container flex items-center w-fit h-fit bg-blue-200 rounded-xl overflow-hidden max-w-xs">
                         <svg class="search_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" alt="search icon">
                             <path
                                 d="M46.599 46.599a4.498 4.498 0 0 1-6.363 0l-7.941-7.941C29.028 40.749 25.167 42 21 42 9.402 42 0 32.598 0 21S9.402 0 21 0s21 9.402 21 21c0 4.167-1.251 8.028-3.342 11.295l7.941 7.941a4.498 4.498 0 0 1 0 6.363zM21 6C12.717 6 6 12.714 6 21s6.717 15 15 15c8.286 0 15-6.714 15-15S29.286 6 21 6z">
                             </path>
                         </svg>
-                        <input class="inputBox" id="inputBox" type="text" placeholder="Search User">
-                    </div>
+                        <input class="inputBox" id="inputBox" type="text" placeholder="Search User" v-model="searchTerm">
+                    </form>
 
                     <!-- add user button  -->
                     <div><button
@@ -88,6 +88,11 @@ const usersStore = useUserStore();
 onBeforeMount(() => {
   usersStore.getAllUsers();
 })
+
+const searchTerm = ref();
+const searchUsers = () => {
+    usersStore.searchUsers(searchTerm.value)
+}
 
 const addUserModalOpen = ref(false)
 

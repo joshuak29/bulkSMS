@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.josue.bulkSMS.entity.User;
@@ -115,5 +116,10 @@ public class UserController {
             System.out.println(e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/api/users/search")
+    public ResponseEntity<Object[]> getUsersSearch(@RequestParam String search) {
+        return new ResponseEntity<>(service.getByName(search), HttpStatus.OK);
     }
 }

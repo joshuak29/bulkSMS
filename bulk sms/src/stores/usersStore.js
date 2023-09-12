@@ -36,5 +36,18 @@ export const useUserStore = defineStore('user', () => {
 
     }
 
-    return { getAllUsers, getUser, deleteUser, addUser, updateUser, users }
+    const searchUsers = async (searchTerm) => {
+        const results = await axios.get(`http://localhost:8080/api/users/search?search=${searchTerm}`);
+
+        if(results.data.length == 0) {
+            getAllUsers();
+        }else{
+            users.value = [];
+            results.data.forEach(user => {
+                users.value.push(user);
+            })
+        }
+    }
+
+    return { getAllUsers, getUser, deleteUser, addUser, updateUser, searchUsers, users }
 })
