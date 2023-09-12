@@ -1,18 +1,31 @@
 <template>
     <!-- body below header -->
     <div class="w-full max-h-full">
-        <form class="w-full flex flex-row p-6 gap-6" @submit.prevent="createNewCampaign">
-            <div class="flex flex-col w-3/5 gap-5">
-                <input type="text" placeholder="Sender ID" class="input" v-model="senderId">
-                <textarea placeholder='Text Message...' cols="30" rows="15" class="text" v-model="textMessage"></textarea>
-                <!-- <button>Schedule Send Time</button> -->
-                <label class="font-semibold">
-                    Schedule Time: 
-                    <input placeholder="Schedule time" type="datetime-local" required v-model="scheduleDatetime" class="ml-4 px-3 rounded-md border border-gray-300 font-normal">
+        <form class="w-full flex flex-col p-6 gap-6" @submit.prevent="createNewCampaign">
+            <!-- senderId and numbers file -->
+            <div class="flex flex-row w-full justify-between pr-6">
+                <input type="text" placeholder="Sender ID" required class="input" v-model="senderId">
+
+                <label for="file" class="flex justify-center items-center bg-gray-300 w-64 rounded-xl font-semibold">
+                    Select Numbers file (.csv)
                 </label>
+                <input type="file" required accept=".csv" @change="getNumbers" ref="numbers" name="numbers-file" id="file" class="hidden">
             </div>
-            <div class="flex flex-col w-2/5 gap-5 pt-16">
-                <textarea placeholder="Numbers" cols="30" rows="15" class="text"></textarea>
+
+            <!-- text message area -->
+            <div class="flex flex-row">
+                <textarea placeholder='Text Message...' required class="text w-full" rows="12"
+                    v-model="textMessage"></textarea>
+            </div>
+
+            <!-- schedule, create and cancel buttons -->
+            <div class="flex flex-row justify-between">
+                <label class="font-semibold">
+                    Schedule Time:
+                    <input placeholder="Schedule time" type="datetime-local" required v-model="scheduleDatetime"
+                        class="ml-4 px-3 rounded-md border border-gray-300 font-normal">
+                </label>
+
                 <div class="text-right">
                     <input type="submit" class="mr-6" value="Create">
                     <button>CANCEL</button>
@@ -30,14 +43,36 @@ import { useCampaignStore } from '@/stores/CampaignsStore';
 const campaignStore = useCampaignStore();
 const router = useRouter();
 
+const numbers = ref(null);
+const parsedNumbers = ref();
+
+const getNumbers = () => {
+    if (numbers.value == null) { }
+    else if (numbers.value.files[0].type != 'text/csv') { }
+    else {
+        const numbersCsv = numbers.value.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const text = e.target.result;
+            parsedNumbers.value = text.split('\n');
+            // console.log(typeof (JSON.stringify(parsedNumbers.value)));
+        }
+
+        reader.readAsText(numbersCsv)
+    }
+}
+
 const createNewCampaign = () => {
+    getNumbers();
     campaignStore.addCampaign({
         senderId: senderId.value,
         textMessage: textMessage.value,
-        schedule: scheduleDatetime.value
+        schedule: scheduleDatetime.value,
+        numbers: JSON.stringify(parsedNumbers.value)
     })
 
-    router.push({name: 'history'})
+    router.push({ name: 'history' })
 }
 
 const senderId = ref();
@@ -82,7 +117,8 @@ const scheduleDatetime = ref();
     box-shadow: 0px 0px 20px -18px;
 }
 
-input[type="submit"], button {
+input[type="submit"],
+button {
     width: fit-content;
     min-width: 100px;
     height: 45px;
@@ -97,11 +133,14 @@ input[type="submit"], button {
     font-family: 'Poppins', sans-serif;
 }
 
-input[type="submit"], button:hover {
+input[type="submit"],
+button:hover {
     background-color: #F2F2F2;
     box-shadow: 0px 0px 20px -18px;
 }
 
-input[type="submit"], button:active {
+input[type="submit"],
+button:active {
     transform: scale(0.95);
-}</style>
+}
+</style>

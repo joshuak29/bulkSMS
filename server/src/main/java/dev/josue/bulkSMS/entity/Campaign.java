@@ -2,6 +2,7 @@ package dev.josue.bulkSMS.entity;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,9 @@ public class Campaign {
 
     @Column(nullable = false)
     private LocalDateTime schedule;
+
+    @Column(nullable = false)
+    private String numbers;
 
     @OneToOne
     @JoinColumn(name = "messageId")
