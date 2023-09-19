@@ -16,7 +16,7 @@ public class MessageService {
         return repo.save(message);
     }
     
-    public Message getMessage(int id) {
+    public Message getMessage(Long id) {
         return repo.getReferenceById(id);
     }
 }

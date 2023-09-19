@@ -1,4 +1,4 @@
-package dev.josue.bulkSMS.auth;
+package dev.josue.bulkSMS.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +37,7 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(passwordEncoder());
+        authProvider.setUserDetailsService(userDetailsService());
         return authProvider;
     }
 

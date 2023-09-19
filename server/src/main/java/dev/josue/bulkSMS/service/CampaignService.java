@@ -18,7 +18,7 @@ public class CampaignService {
         return repo.save(campaign);
     }
 
-    public Campaign getCampaign(int id) {
+    public Campaign getCampaign(Long id) {
         return repo.getReferenceById(id);
     }
 
@@ -26,7 +26,7 @@ public class CampaignService {
         return repo.findAll();
     }
 
-    public void deleteCampaign(int id) {
+    public void deleteCampaign(Long id) {
         repo.deleteById(id);
     }
     

@@ -1,4 +1,4 @@
-package dev.josue.bulkSMS.auth;
+package dev.josue.bulkSMS.config;
 
 import java.io.IOException;
 

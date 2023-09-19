@@ -1,10 +1,8 @@
 package dev.josue.bulkSMS.controller;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.josue.bulkSMS.entity.Campaign;
@@ -26,6 +25,7 @@ import dev.josue.bulkSMS.utils.CampaignUtils;
 
 @CrossOrigin()
 @RestController
+@RequestMapping("/api/campaigns")
 public class CampaignController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class CampaignController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/api/campaigns")
+    @PostMapping
     public ResponseEntity<Void> addCampaign(@RequestBody HashMap<String, String> data) {
         try {
             if (!CampaignUtils.isCampaign(data)) {
@@ -48,7 +48,7 @@ public class CampaignController {
             messageService.createMessage(newMessage);
 
             Message message = messageService.getMessage(newMessage.getId());
-            User user = userService.getUser(1);
+            User user = userService.getUser(1L);
 
             System.out.println(message);
             System.out.println(user);
@@ -63,13 +63,13 @@ public class CampaignController {
         }
     }
 
-    @GetMapping("/api/campaigns")
+    @GetMapping
     public ResponseEntity<List<Campaign>> getAllCampaigns() {
         return new ResponseEntity<List<Campaign>>(service.getAllCampaigns(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/campaigns/{id}")
-    public ResponseEntity<Campaign> getCampaign(@PathVariable int id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Campaign> getCampaign(@PathVariable Long id) {
         try {
             Campaign campaign = service.getCampaign(id);
             System.out.println(campaign);
@@ -81,7 +81,7 @@ public class CampaignController {
         }
     }
 
-    @GetMapping("api/campaigns/total")
+    @GetMapping("/total")
     public ResponseEntity<Long> getNumberofCampaigns() {
         long total = service.numberOfCampaigns();
         System.out.println(total);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +24,14 @@ import dev.josue.bulkSMS.utils.UserUtils;
 
 
 @RestController
+@RequestMapping("/api/users")
 @CrossOrigin
 public class UserController {
 
     @Autowired
     UserService service;
 
-    @PostMapping("/api/users")
+    @PostMapping
     public ResponseEntity<String> addUser(@RequestBody HashMap<String, String> data) {
         // System.out.println(data);
         try {
@@ -50,12 +52,12 @@ public class UserController {
 
     }
 
-    @GetMapping("/api/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         try {
             User user = service.getUser(id);
@@ -67,7 +69,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/api/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> putUser(@PathVariable Long id, @RequestBody HashMap<String, String> data) {
         try {
             boolean isAdminBool = Boolean.parseBoolean(data.get("isAdmin"));
@@ -94,7 +96,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/api/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletetUser(@PathVariable Long id) {
         try {
             User user = service.getUser(id);
@@ -109,7 +111,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/users/search")
+    @GetMapping("/search")
     public ResponseEntity<Object[]> getUsersSearch(@RequestParam String search) {
         return new ResponseEntity<>(service.getByName(search), HttpStatus.OK);
     }

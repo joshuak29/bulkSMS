@@ -6,8 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 
 @Entity
 @Table
@@ -46,15 +44,15 @@ public class Message {
         this.senderId = senderId;
     }
     
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Id;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((senderId == null) ? 0 : senderId.hashCode());
-        return result;
-    }
+    // @Override
+    // public int hashCode() {
+    //     final int prime = 31;
+    //     Long result = 1L;
+    //     result = prime * result + Id;
+    //     result = prime * result + ((text == null) ? 0 : text.hashCode());
+    //     result = prime * result + ((senderId == null) ? 0 : senderId.hashCode());
+    //     return result;
+    // }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
