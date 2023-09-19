@@ -14,7 +14,7 @@ import jakarta.persistence.OneToOne;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
 
     @Column(nullable = false)
     private String text;
@@ -29,12 +29,10 @@ public class Message {
     }
 
     
-    public int getId() {
+    public Long getId() {
         return Id;
     }
-    public void setId(int id) {
-        Id = id;
-    }
+    
     public String getText() {
         return text;
     }

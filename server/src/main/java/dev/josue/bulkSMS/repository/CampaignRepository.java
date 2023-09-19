@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import dev.josue.bulkSMS.entity.Campaign;
 
-public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
+public interface CampaignRepository extends JpaRepository<Campaign, Long> {
     
 }

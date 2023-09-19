@@ -2,6 +2,7 @@ package dev.josue.bulkSMS.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,18 +33,13 @@ public class UserController {
     public ResponseEntity<String> addUser(@RequestBody HashMap<String, String> data) {
         // System.out.println(data);
         try {
-            String name = data.get("name");
-            String username = data.get("username");
-            String password = data.get("password");
-            String isAdmin = data.get("isAdmin");
-            
             if(! UserUtils.isUser(data)) {
                 throw new IllegalArgumentException("Arguments can't be null");
             }
 
-            boolean isAdminBool = Boolean.parseBoolean(isAdmin);
+            boolean isAdminBool = Boolean.parseBoolean(data.get("isAdmin"));
 
-            User user = new User(name, username, password, isAdminBool);
+            User user = new User(data.get("name"), data.get("username"), data.get("password"), isAdminBool);
             service.addUser(user);
             return new ResponseEntity<String>("Created", HttpStatus.CREATED);
 
@@ -60,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable int id) {
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
         try {
             User user = service.getUser(id);
             System.out.println(user);
@@ -72,14 +68,9 @@ public class UserController {
     }
 
     @PutMapping("/api/users/{id}")
-    public ResponseEntity<Void> putUser(@PathVariable int id, @RequestBody HashMap<String, String> data) {
+    public ResponseEntity<Void> putUser(@PathVariable Long id, @RequestBody HashMap<String, String> data) {
         try {
-            String name = data.get("name");
-            String username = data.get("username");
-            String password = data.get("password");
-            String isAdmin = data.get("isAdmin");
-
-            boolean isAdminBool = Boolean.parseBoolean(isAdmin);
+            boolean isAdminBool = Boolean.parseBoolean(data.get("isAdmin"));
 
             User user = service.getUser(id);
             System.out.println(user);
@@ -88,7 +79,7 @@ public class UserController {
                 throw new IllegalArgumentException("Arguments can't be null");
             }
 
-            User newUser = new User(name, username, password, isAdminBool);
+            User newUser = new User(data.get("name"), data.get("username"), data.get("password"), isAdminBool);
 
             service.updateUser(id, newUser);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -104,7 +95,7 @@ public class UserController {
     }
 
     @DeleteMapping("/api/users/{id}")
-    public ResponseEntity<Void> deletetUser(@PathVariable int id) {
+    public ResponseEntity<Void> deletetUser(@PathVariable Long id) {
         try {
             User user = service.getUser(id);
             System.out.println(user);

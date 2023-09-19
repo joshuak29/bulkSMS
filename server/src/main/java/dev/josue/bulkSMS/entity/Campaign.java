@@ -21,7 +21,7 @@ public class Campaign {
     
     @Id
     @GeneratedValue
-    private int Id;
+    private Long Id;
 
     @Column(nullable = false)
     private LocalDateTime schedule;
@@ -45,7 +45,7 @@ public class Campaign {
         this.numbers = numbers;
     }
 
-    public int getId() {
+    public Long getId() {
         return Id;
     }
 
@@ -78,16 +78,19 @@ public class Campaign {
         this.numbers = numbers;
     }
 
+    
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Id;
+        result = prime * result + ((Id == null) ? 0 : Id.hashCode());
         result = prime * result + ((schedule == null) ? 0 : schedule.hashCode());
+        result = prime * result + ((numbers == null) ? 0 : numbers.hashCode());
         result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -97,17 +100,30 @@ public class Campaign {
         if (getClass() != obj.getClass())
             return false;
         Campaign other = (Campaign) obj;
-        if (Id != other.Id)
+        if (Id == null) {
+            if (other.Id != null)
+                return false;
+        } else if (!Id.equals(other.Id))
             return false;
         if (schedule == null) {
             if (other.schedule != null)
                 return false;
         } else if (!schedule.equals(other.schedule))
             return false;
+        if (numbers == null) {
+            if (other.numbers != null)
+                return false;
+        } else if (!numbers.equals(other.numbers))
+            return false;
         if (message == null) {
             if (other.message != null)
                 return false;
         } else if (!message.equals(other.message))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
             return false;
         return true;
     }

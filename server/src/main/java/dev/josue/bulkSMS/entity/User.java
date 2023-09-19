@@ -1,7 +1,12 @@
 package dev.josue.bulkSMS.entity;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,10 +18,10 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 @Table
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Long Id;
 
     @Column(nullable = false)
     private String name;
@@ -33,22 +38,48 @@ public class User {
     @Column(nullable = false)
     private final LocalDate joined = LocalDate.now();
 
-    @Column
-    private int credit = 10_000;
-
-    @OneToMany(mappedBy = "user")
     @Column(nullable = false)
-    private List<Campaign> campaigns;
-    
+    private int credit;
+
+    @Column(nullable = false)
+    private boolean isActive;
+
+    // Constructors
     public User() {}
     public User(String name, String username, String password, boolean isAdmin) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.credit = 10_000;
+        this.isActive = true;
     }
 
-    public int getId() {
+    // Override methods
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("User"));
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return isActive;
+    }
+
+    // Getters and Setters
+    public Long getId() {
         return Id;
     }
 
@@ -74,9 +105,9 @@ public class User {
     }
 
     public boolean isAdmin() {
-        return this.isAdmin;
+        return isAdmin;
     }
-    public void setIsAdmin(boolean isAdmin) {
+    public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
@@ -87,20 +118,37 @@ public class User {
     public int getCredit() {
         return credit;
     }
-    public void incrementCredit(int amount) {
-        this.credit += amount;
+    public void incrementCredit(int credit) {
+        this.credit += credit;
     }
+
+    public boolean isActive() {
+        return isActive;
+    }
+    public void activate() {
+        this.isActive = true;
+    }
+    public void deactivate() {
+        this.isActive = false;
+    }
+
+    // hashcode
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Id;
+        result = prime * result + ((Id == null) ? 0 : Id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((username == null) ? 0 : username.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + (isAdmin ? 1231 : 1237);
+        result = prime * result + ((joined == null) ? 0 : joined.hashCode());
+        result = prime * result + credit;
+        result = prime * result + (isActive ? 1231 : 1237);
         return result;
     }
+
+    // equals
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -110,7 +158,10 @@ public class User {
         if (getClass() != obj.getClass())
             return false;
         User other = (User) obj;
-        if (Id != other.Id)
+        if (Id == null) {
+            if (other.Id != null)
+                return false;
+        } else if (!Id.equals(other.Id))
             return false;
         if (name == null) {
             if (other.name != null)
@@ -129,11 +180,22 @@ public class User {
             return false;
         if (isAdmin != other.isAdmin)
             return false;
+        if (joined == null) {
+            if (other.joined != null)
+                return false;
+        } else if (!joined.equals(other.joined))
+            return false;
+        if (credit != other.credit)
+            return false;
+        if (isActive != other.isActive)
+            return false;
         return true;
     }
+
+    // tostring
     @Override
     public String toString() {
         return "User [Id=" + Id + ", name=" + name + ", username=" + username + ", password=" + password + ", isAdmin="
-                + isAdmin + "]";
-    } 
+                + isAdmin + ", joined=" + joined + ", credit=" + credit + ", isActive=" + isActive + "]";
+    }
 }

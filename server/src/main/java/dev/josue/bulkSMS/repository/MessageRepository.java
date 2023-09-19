@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import dev.josue.bulkSMS.entity.Message;
 
-public interface MessageRepository extends JpaRepository<Message, Integer> {
+public interface MessageRepository extends JpaRepository<Message, Long> {
     
 }

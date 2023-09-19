@@ -18,11 +18,10 @@ public class UserService {
     UserRepository repo;
 
     public User addUser(User user) {
-        LocalDate date = LocalDate.now();
         return repo.save(user);
     }
 
-    public User getUser(int id) {
+    public User getUser(Long id) {
         return repo.getReferenceById(id);
     }
 
@@ -42,22 +41,22 @@ public class UserService {
         return users.toArray();
     }
 
-    public User updateUser(int id, User newUser) {
+    public User updateUser(Long id, User newUser) {
         User user = repo.getReferenceById(id);
 
         user.setName(newUser.getName());
-        user.setIsAdmin(newUser.isAdmin());
+        user.setAdmin(newUser.isAdmin());
         user.setUsername(newUser.getUsername());
         user.setPassword(newUser.getPassword());
 
         return repo.save(user);
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         repo.deleteById(id);
     }
 
-    public void addCredit(int amount, int id) {
+    public void addCredit(int amount, Long id) {
         User user = repo.getReferenceById(id);
         user.incrementCredit(amount);
     }
