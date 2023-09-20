@@ -24,13 +24,13 @@ public class AuthService {
 
     @Autowired
     PasswordEncoder encoder;
-    
+
     public AuthenticateResponse register(RegisterRequest request) {
         User user = new User(
-            request.getName(),
-            request.getUsername(),
-            encoder.encode(request.getPassword()), 
-            request.isAdmin());
+                request.getName(),
+                request.getUsername(),
+                encoder.encode(request.getPassword()),
+                request.isAdmin());
 
         userRepo.save(user);
         String token = jwtService.generateToken(user);
@@ -38,19 +38,24 @@ public class AuthService {
         return new AuthenticateResponse(token);
     }
 
-
     public AuthenticateResponse authenticate(AuthenticateRequest request) {
         final String username = request.getUsername();
         final String password = request.getPassword();
 
         authManager.authenticate(
-            new UsernamePasswordAuthenticationToken(username, password)
-        );
+                new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userRepo.findByUsername(username).orElseThrow();
 
         String token = jwtService.generateToken(user);
 
         return new AuthenticateResponse(token);
+    }
+
+    public boolean usernameAvailable(String username) {
+        User user = userRepo.findByUsername(username).orElse(null);
+        System.out.println(user);
+        System.out.println(user instanceof User);
+        return !(user instanceof User);
     }
 }

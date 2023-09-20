@@ -1,6 +1,7 @@
 package dev.josue.bulkSMS.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticateResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(this.authService.register(request));
+        if (authService.usernameAvailable(request.getUsername())) {
+            return ResponseEntity.ok(this.authService.register(request));
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @PostMapping("/login")

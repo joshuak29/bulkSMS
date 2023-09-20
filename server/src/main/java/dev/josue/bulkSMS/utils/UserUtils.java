@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import dev.josue.bulkSMS.config.JwtService;
 import dev.josue.bulkSMS.entity.User;
 import dev.josue.bulkSMS.repository.UserRepository;
 import dev.josue.bulkSMS.service.UserService;
 
+@Service
 public class UserUtils {
     @Autowired
     JwtService jwtService;
