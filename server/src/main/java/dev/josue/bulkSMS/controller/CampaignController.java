@@ -3,6 +3,7 @@ package dev.josue.bulkSMS.controller;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,19 +13,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.josue.bulkSMS.entity.Campaign;
 import dev.josue.bulkSMS.entity.Message;
 import dev.josue.bulkSMS.entity.User;
+import dev.josue.bulkSMS.repository.MessageRepository;
 import dev.josue.bulkSMS.service.CampaignService;
 import dev.josue.bulkSMS.service.MessageService;
 import dev.josue.bulkSMS.service.UserService;
 import dev.josue.bulkSMS.utils.CampaignUtils;
 
-@CrossOrigin()
+
 @RestController
+@CrossOrigin
 @RequestMapping("/api/campaigns")
 public class CampaignController {
 
@@ -36,6 +40,9 @@ public class CampaignController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MessageRepository messageRepo;
 
     @PostMapping
     public ResponseEntity<Void> addCampaign(@RequestBody HashMap<String, String> data) {
@@ -62,9 +69,12 @@ public class CampaignController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    
     @GetMapping
-    public ResponseEntity<List<Campaign>> getAllCampaigns() {
+    public ResponseEntity<List<Campaign>> getAllCampaigns(@RequestHeader Map<String, String> headers) {
+        System.out.println("\n=============================================");
+        System.out.println(headers);
+        System.out.println("=============================================\n");
         return new ResponseEntity<List<Campaign>>(service.getAllCampaigns(), HttpStatus.OK);
     }
 
@@ -86,5 +96,21 @@ public class CampaignController {
         long total = service.numberOfCampaigns();
         System.out.println(total);
         return new ResponseEntity<Long>(total, HttpStatus.OK);
+    }
+
+    @GetMapping("/messages/total")
+    public ResponseEntity<Long> getNumberofMessages() {
+        long total = messageRepo.count();
+        System.out.println(total);
+        return new ResponseEntity<Long>(total, HttpStatus.OK);
+    }
+
+    @GetMapping("/test")
+    public String test(@RequestHeader Map<String, String> headers) {
+        System.out.println("\n=============================================");
+        System.out.println(headers);
+        System.out.println("=============================================\n");
+
+        return "Tested";
     }
 }

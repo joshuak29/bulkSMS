@@ -3,7 +3,7 @@
         <!-- stats -->
         <div class="w-full flex flex-row gap-4 justify-evenly items-center py-2">
             <StatVue text="Campaigns" :value="campaignsStore.totalCampaigns"/>
-            <StatVue text="Total SMSs" :value="campaignsStore.totalCampaigns"/>
+            <StatVue text="Total SMSs" :value="campaignsStore.totalMessages"/>
             <StatVue text="Numbers Reached" value="214"/>
             <StatVue text="Pending Campaigns" value="4"/>
         </div>

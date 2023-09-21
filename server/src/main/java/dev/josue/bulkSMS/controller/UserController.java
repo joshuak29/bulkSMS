@@ -24,8 +24,8 @@ import dev.josue.bulkSMS.service.UserService;
 import dev.josue.bulkSMS.utils.UserUtils;
 
 @RestController
-@RequestMapping("/api/users")
 @CrossOrigin
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -62,13 +62,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
-        // if (userUtils.isAdmin(token)) {
-        //     return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
-        // } else {
-        //     System.out.println("Unauthorized");
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        // return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
+        if (userUtils.isAdmin(token)) {
+            return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
+        } else {
+            System.out.println("Unauthorized");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping("/{id}")

@@ -2,11 +2,13 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import axios from 'axios'
+import setAuthHeader from '@/utils/setAuthHeader';
 
 export const useUserStore = defineStore('user', () => {
     const users = ref([]);
     const getAllUsers = async () => {
         users.value = [];
+        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3N1ZSIsImlhdCI6MTY5NTI5NjY1MCwiZXhwIjoxNjk1MzgzMDUwfQ.WjwLdyYk5fuulO-mUfNJ8ukbFCH5aicLIAsC-wOpbyc");
         const results = await axios.get('http://localhost:8080/api/users');
         results.data.forEach(user => {
             users.value.push(user);

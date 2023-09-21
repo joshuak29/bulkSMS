@@ -1,6 +1,7 @@
 package dev.josue.bulkSMS.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private final LocalDate joined = LocalDate.now();
+
+    private LocalDateTime lastLogin;
 
     @Column(nullable = false)
     private int credit;
@@ -113,6 +116,14 @@ public class User implements UserDetails {
 
     public LocalDate getJoined() {
         return joined;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+    public void setLastLogin() {
+        System.out.println("Updated las Login");
+        this.lastLogin = LocalDateTime.now();
     }
 
     public int getCredit() {

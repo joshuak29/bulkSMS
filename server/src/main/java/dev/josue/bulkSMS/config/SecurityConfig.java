@@ -24,8 +24,10 @@ public class SecurityConfig {
         http
         .csrf().disable()
         .authorizeHttpRequests()
+        .requestMatchers(HttpMethod.GET, "/api/campaigns/test").permitAll()
         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
         .anyRequest().authenticated()
+        // .anyRequest().permitAll()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()

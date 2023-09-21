@@ -46,6 +46,9 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userRepo.findByUsername(username).orElseThrow();
+        user.setLastLogin();
+
+        userRepo.save(user);
 
         String token = jwtService.generateToken(user);
 

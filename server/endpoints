@@ -1,0 +1,13 @@
+/api
+    /auth
+        /register POST 
+        /login  POST
+    
+    /users  POST GET
+        /{id}  GET PUT DELETE
+        /search  GET
+
+    /campaigns  POST GET
+        /{id}  GET
+        /total  GET
+        /messages/total  GET
