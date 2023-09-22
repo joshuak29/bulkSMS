@@ -62,13 +62,12 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
-        // if (userUtils.isAdmin(token)) {
-        //     return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
-        // } else {
-        //     System.out.println("Unauthorized");
-        //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        // }
+        if (userUtils.isAdmin(token)) {
+            return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
+        } else {
+            System.out.println("Unauthorized");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping("/{id}")

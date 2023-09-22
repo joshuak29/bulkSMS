@@ -1,5 +1,7 @@
 package dev.josue.bulkSMS.auth;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +35,7 @@ public class AuthService {
                 request.isAdmin());
 
         userRepo.save(user);
+
         String token = jwtService.generateToken(user);
 
         return new AuthenticateResponse(token);
@@ -47,6 +50,9 @@ public class AuthService {
 
         User user = userRepo.findByUsername(username).orElseThrow();
 
+        user.setLastLogin(LocalDateTime.now());
+        userRepo.save(user);
+
         String token = jwtService.generateToken(user);
 
         return new AuthenticateResponse(token);
@@ -54,8 +60,6 @@ public class AuthService {
 
     public boolean usernameAvailable(String username) {
         User user = userRepo.findByUsername(username).orElse(null);
-        System.out.println(user);
-        System.out.println(user instanceof User);
         return !(user instanceof User);
     }
 }

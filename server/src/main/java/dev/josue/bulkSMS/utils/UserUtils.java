@@ -40,4 +40,13 @@ public class UserUtils {
 
         return user.isAdmin();
     }
+
+    public User getUser(String token) {
+        String authToken = token.substring(7);
+        String username = jwtService.extractUsername(authToken);
+
+        User user = userRepo.findByUsername(username).orElseThrow();
+
+        return user;
+    }
 }

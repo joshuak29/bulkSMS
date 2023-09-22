@@ -1,0 +1,119 @@
+[33mcommit 87580d7f0440999fa3bc221798887893586de310[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Fri Sep 22 12:25:57 2023 +0200
+
+    reset
+
+[33mcommit 723bc9cf6e665bf700ce596bc50d02e07a96838f[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Thu Sep 21 16:01:18 2023 +0200
+
+    API fully secured
+
+[33mcommit 555868cd954dd0638ed49fd97375596273f7eec1[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Wed Sep 20 12:17:53 2023 +0200
+
+    API authentication and authorization complete
+
+[33mcommit 01d3a1d22e1c6c089ba2c1c62e28ccf0f610272d[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Wed Sep 20 11:29:34 2023 +0200
+
+    authorization on user endpoints
+
+[33mcommit cf94d5a519961747d9a454f12bae3fb88b4c84e6[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 19 18:37:39 2023 +0200
+
+    authenticated the api, not considering authorities/roles
+
+[33mcommit a157b5846de80ee13b25de77db03c97fa753be32[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 19 12:49:14 2023 +0200
+
+    Guess i'm done with the api security
+
+[33mcommit 9634bd0e9d3896e2ee570194b9dd70d16e212a45[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 19 11:57:31 2023 +0200
+
+    User now extends UserDetails, JwtAuthFilter done
+
+[33mcommit 15247619ccaa6314cb18e61e1ed8e38c99423b4b[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 12 18:42:20 2023 +0200
+
+    added the numbers in DB and endpoints
+
+[33mcommit 98b1b48411a162486c7255dac9af5f8d3ec31b85[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 12 14:49:50 2023 +0200
+
+    added numbers file input on frontend
+
+[33mcommit e4471ec1e66c06575f9349c8f2d7855c04e50103[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 12 10:03:42 2023 +0200
+
+    added search functionality on users
+
+[33mcommit ebc3c1f3cccff03041a724c40e26a52d0a41e418[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 11 19:10:04 2023 +0200
+
+    done for the day
+
+[33mcommit adbaa46cf39c7671a5c7a63308a43ea7e0597520[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 11 16:39:09 2023 +0200
+
+    added http responses and error handling on user get endpoints
+
+[33mcommit 2b678621352a1a75145eaed8fb1a27370b7cd49e[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 11 16:20:31 2023 +0200
+
+    done adding http responses and erorr handling on all user endpoints
+
+[33mcommit b90fe0e4d26ca0d7e5fd5590eb31198833c5be6d[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 11 15:28:56 2023 +0200
+
+    added Http response handling on the users get
+
+[33mcommit c2b607f30a86a49110a943773e0ee06abb17152e[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 11 15:03:21 2023 +0200
+
+    added Http response handling on the users post
+
+[33mcommit 6a1cece8f75e32219c5ab9068e5042a4b2d5dd1d[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Fri Sep 8 20:28:11 2023 +0200
+
+    Cors, security and some api left
+
+[33mcommit bdb76ec2d0cbb0a9fb6ce5c32b6579087d84d3ab[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Thu Sep 7 19:19:50 2023 +0200
+
+    Updated the project file system, connected to a MySQL db
+
+[33mcommit 8da7b128fab43144e14da863a0229f924e3a2196[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Wed Sep 6 15:44:38 2023 +0200
+
+    Frontend now interacting with the API over user data
+
+[33mcommit 0eee7df0998d1551536d77eac569a6ec7093f66b[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Tue Sep 5 19:35:01 2023 +0200
+
+    added userStore and minory intergrated into the interface
+
+[33mcommit 05ab1ace5afe27ddc089430c6c04ba974ab57ae1[m
+Author: joshuak29 <rockjoshk29@gmail.com>
+Date:   Mon Sep 4 10:25:29 2023 +0200
+
+    Initial Commit
