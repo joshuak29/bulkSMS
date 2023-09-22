@@ -57,8 +57,6 @@ public class AuthService {
 
     public boolean usernameAvailable(String username) {
         User user = userRepo.findByUsername(username).orElse(null);
-        System.out.println(user);
-        System.out.println(user instanceof User);
         return !(user instanceof User);
     }
 }

@@ -8,7 +8,7 @@ export const useUserStore = defineStore('user', () => {
     const users = ref([]);
     const getAllUsers = async () => {
         users.value = [];
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3N1ZSIsImlhdCI6MTY5NTI5NjY1MCwiZXhwIjoxNjk1MzgzMDUwfQ.WjwLdyYk5fuulO-mUfNJ8ukbFCH5aicLIAsC-wOpbyc");
+        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZHNhbSIsImlhdCI6MTY5NTMwNDcyNywiZXhwIjoxNjk1MzkxMTI3fQ.FsMGIc72ozYtOtYVoeWfwqdC4jpSayIYKrUZQa_j5-w");
         const results = await axios.get('http://localhost:8080/api/users');
         results.data.forEach(user => {
             users.value.push(user);

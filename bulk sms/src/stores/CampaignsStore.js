@@ -14,9 +14,12 @@ export const useCampaignStore = defineStore('campaign', () => {
 
     const getAllCampaigns = async () => {
         campaigns.value = [];
-        // await axios.get('http://localhost:8080/api/campaigns/test');
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb3N1ZSIsImlhdCI6MTY5NTI5NjY1MCwiZXhwIjoxNjk1MzgzMDUwfQ.WjwLdyYk5fuulO-mUfNJ8ukbFCH5aicLIAsC-wOpbyc");
-        const results = await axios.get('http://localhost:8080/api/campaigns');
+        setAuthHeader(import.meta.env.VUE_APP_TOKEN);
+        const results = await axios.get('http://localhost:8080/api/campaigns', {
+            headers: {
+                Accept: 'application/json'
+            }
+        });
         results.data.forEach(campaign => {
             campaigns.value.push(campaign);
         });

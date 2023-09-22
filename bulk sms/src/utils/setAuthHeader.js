@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const setAuthHeader = (token) => {
+const setAuthHeader = (token=null) => {
     if (token) {
         axios.defaults.headers = {
             Authorization: 'Bearer ' + token

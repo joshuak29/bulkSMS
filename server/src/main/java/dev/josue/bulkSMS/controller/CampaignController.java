@@ -10,11 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.josue.bulkSMS.entity.Campaign;
@@ -55,26 +57,20 @@ public class CampaignController {
             messageService.createMessage(newMessage);
 
             Message message = messageService.getMessage(newMessage.getId());
-            User user = userService.getUser(1L);
-
-            System.out.println(message);
-            System.out.println(user);
+            User user = userService.getUser(4L);
 
             Campaign campaign = new Campaign(LocalDateTime.parse(data.get("schedule")), message, user, data.get("numbers"));
             service.createCampaign(campaign);
             return new ResponseEntity<>(HttpStatus.CREATED);
 
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     
     @GetMapping
     public ResponseEntity<List<Campaign>> getAllCampaigns(@RequestHeader Map<String, String> headers) {
-        System.out.println("\n=============================================");
-        System.out.println(headers);
-        System.out.println("=============================================\n");
+        System.out.println("get campaigns");
         return new ResponseEntity<List<Campaign>>(service.getAllCampaigns(), HttpStatus.OK);
     }
 
@@ -82,11 +78,9 @@ public class CampaignController {
     public ResponseEntity<Campaign> getCampaign(@PathVariable Long id) {
         try {
             Campaign campaign = service.getCampaign(id);
-            System.out.println(campaign);
 
             return new ResponseEntity<Campaign>(campaign, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -94,22 +88,17 @@ public class CampaignController {
     @GetMapping("/total")
     public ResponseEntity<Long> getNumberofCampaigns() {
         long total = service.numberOfCampaigns();
-        System.out.println(total);
         return new ResponseEntity<Long>(total, HttpStatus.OK);
     }
 
     @GetMapping("/messages/total")
     public ResponseEntity<Long> getNumberofMessages() {
         long total = messageRepo.count();
-        System.out.println(total);
         return new ResponseEntity<Long>(total, HttpStatus.OK);
     }
 
     @GetMapping("/test")
     public String test(@RequestHeader Map<String, String> headers) {
-        System.out.println("\n=============================================");
-        System.out.println(headers);
-        System.out.println("=============================================\n");
 
         return "Tested";
     }

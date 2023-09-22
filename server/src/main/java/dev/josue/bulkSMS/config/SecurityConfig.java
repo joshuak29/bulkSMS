@@ -19,19 +19,23 @@ public class SecurityConfig {
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired
+    SimpleCorsFilter corsFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        .csrf().disable()
+        // .csrf().disable()
         .authorizeHttpRequests()
         .requestMatchers(HttpMethod.GET, "/api/campaigns/test").permitAll()
         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-        .anyRequest().authenticated()
-        // .anyRequest().permitAll()
+        // .anyRequest().authenticated()
+        .anyRequest().permitAll()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authenticationProvider(authenticationProvider)
+        // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();

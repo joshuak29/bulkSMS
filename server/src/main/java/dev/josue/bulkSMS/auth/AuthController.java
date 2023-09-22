@@ -20,6 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticateResponse> register(@RequestBody RegisterRequest request) {
+        System.out.println("Hit /register");
         if (authService.usernameAvailable(request.getUsername())) {
             return ResponseEntity.ok(this.authService.register(request));
         } else {

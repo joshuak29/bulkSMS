@@ -127,7 +127,6 @@ public class UserController {
         if (userUtils.isAdmin(token)) {
             try {
                 User user = service.getUser(id);
-                System.out.println(user);
 
                 service.deleteUser(id);
                 return new ResponseEntity<>(HttpStatus.OK);

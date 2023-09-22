@@ -122,7 +122,6 @@ public class User implements UserDetails {
         return lastLogin;
     }
     public void setLastLogin() {
-        System.out.println("Updated las Login");
         this.lastLogin = LocalDateTime.now();
     }
 
