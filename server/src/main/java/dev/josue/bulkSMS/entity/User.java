@@ -63,6 +63,11 @@ public class User implements UserDetails {
         this.isActive = true;
     }
 
+    // 
+    public void incrementCredit(int value) {
+        this.credit += value;
+    }
+
     // Override methods
     
     @Override

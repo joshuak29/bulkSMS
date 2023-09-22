@@ -42,18 +42,28 @@ public class AuthService {
     }
 
     public AuthenticateResponse authenticate(AuthenticateRequest request) {
+        System.out.println("hit login");
         final String username = request.getUsername();
         final String password = request.getPassword();
+
+        System.out.println(username);
+        System.out.println(password);
 
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userRepo.findByUsername(username).orElseThrow();
 
+        System.out.println(user);
+
         user.setLastLogin(LocalDateTime.now());
         userRepo.save(user);
 
+        System.out.println(user);
+        
         String token = jwtService.generateToken(user);
+
+        System.out.println(token);
 
         return new AuthenticateResponse(token);
     }

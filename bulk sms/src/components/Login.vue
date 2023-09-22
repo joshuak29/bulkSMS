@@ -4,17 +4,18 @@
             <div class="card-header">
                 <div class="log font-semibold">Login</div>
             </div>
-            <form>
+            <form @submit.prevent="login">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input required="" name="username" id="username" type="text">
+                    <input required v-model="username" name="username" id="username" type="text">
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input required="" name="password" id="password" type="password">
+                    <input required v-model="password" name="password" id="password" type="password">
                 </div>
                 <div class="form-group">
-                    <input value="Login" type="button" @click="login" class="w-full bg-blue-300 text-white py-3 px-5 my-2 mx-0 border-none rounded-s cursor-pointer hover:text-black hover:bg-blue-200">
+                    <input value="Login" type="submit"
+                        class="w-full bg-blue-300 text-white py-3 px-5 my-2 mx-0 border-none rounded-s cursor-pointer hover:text-black hover:bg-blue-200">
                 </div>
             </form>
         </div>
@@ -22,11 +23,17 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
+import { ref } from 'vue';
 
-const router = useRouter()
+const router = useRouter();
+const authStore = useAuthStore();
+
+const username = ref();
+const password = ref();
 
 const login = () => {
-    router.push({name: 'new'})
+    authStore.login(username.value, password.value);
 }
 </script>
 <style scoped>
