@@ -47,13 +47,15 @@
                         <td>{{ campaign.schedule}}</td>
                         <td>Sent</td>
                         <td>{{ campaign.user.username }}</td>
-                        <td><font-awesome-icon icon="pen-to-square" @click="edit"></font-awesome-icon></td>
+                        <td><font-awesome-icon icon="pen-to-square" class="text-gray-700 hover:text-gray-600" @click="edit"></font-awesome-icon></td>
+                        <!-- <td><font-awesome-icon icon="xmark" class="text-red-500 hover:text-red-400" @click="deleteCampaign(campaign.id)"></font-awesome-icon></td> -->
                     </tr>
 
                 </tbody>
 
             </table>
         </div>
+        <!-- <DeleteCampaignModalVue /> -->
     </div>
 </template>
 <script setup>
@@ -63,6 +65,7 @@ import { onBeforeMount } from 'vue';
 import { useCampaignStore } from '@/stores/CampaignsStore.js'
 
 import StatVue from '@/components/main/dashboard/Stat.vue'
+import DeleteCampaignModalVue from '@/components/main/modals/DeleteCampaignModal.vue'
 
 const router = useRouter()
 
@@ -70,6 +73,9 @@ const campaignsStore = useCampaignStore();
 
 const edit = () => {
     router.push({name: "new"})
+}
+const deleteCampaign = (id) => {
+    campaignsStore.deleteCampaign(id);
 }
 
 onBeforeMount(() => {
@@ -87,9 +93,5 @@ tbody tr {
 
 tbody tr {
     @apply hover:bg-gray-100 cursor-pointer
-}
-
-td svg {
-    @apply text-gray-700 hover:text-gray-600
 }
 </style>

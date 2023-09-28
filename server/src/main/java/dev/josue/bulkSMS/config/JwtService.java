@@ -2,6 +2,8 @@ package dev.josue.bulkSMS.config;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,9 +57,13 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+        HashMap<String, String> claims = new HashMap<>();
+        claims.put("role", "Admin");
+        claims.put("credit", "10000");
+
         return Jwts
         .builder()
-        .setClaims(null)
+        .setClaims(claims)
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 86400000))

@@ -3,14 +3,18 @@
         <!-- name and role -->
         <div class="flex flex-col h-full">
             <div class="font-semibold">Joshua R</div>
-            <div class="text-gray-300 text-xs text-right">Admin</div>
+            <div class="text-gray-300 text-xs text-right" v-if="authStore.isAdmin()">Admin</div>
+            <div class="text-gray-300 text-xs text-right" v-else>Agent</div>
         </div>
 
         <!-- profile pic -->
         <div class="h-full w-14 bg-gray-400 rounded-full"></div>
     </div>
 </template>
-<script>
+<script setup>
+import { useAuthStore } from '@/stores/authStore';
+
+const authStore = useAuthStore();
 </script>
 <style scoped>
     

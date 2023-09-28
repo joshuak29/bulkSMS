@@ -11,9 +11,7 @@ export const useCampaignStore = defineStore('campaign', () => {
     const getAllCampaigns = async () => {
         campaigns.value = [];
         // setAuthHeader(import.meta.env.VUE_APP_TOKEN);
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTM4MTMzNywiZXhwIjoxNjk1NDY3NzM3fQ.kjwrK_0tU6fGlsFLnS2YnWrbw0lU1sCTPurh501lZzw");
-        console.log(import.meta.env.MODE);
-        console.log(import.meta.env.VUE_APP_TOKEN);
+        setAuthHeader();
         const results = await axios.get('http://localhost:8080/api/campaigns');
         results.data.forEach(campaign => {
             campaigns.value.push(campaign);
@@ -22,26 +20,26 @@ export const useCampaignStore = defineStore('campaign', () => {
     };
 
     const getCampaign = async (id) => {
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTM4MTMzNywiZXhwIjoxNjk1NDY3NzM3fQ.kjwrK_0tU6fGlsFLnS2YnWrbw0lU1sCTPurh501lZzw");
+        setAuthHeader();
         const results = await axios.get(`http://localhost:8080/api/campaigns/${id}`);
         return results.data;
     };
 
     const deleteCampaign = async (id) => {
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTM4MTMzNywiZXhwIjoxNjk1NDY3NzM3fQ.kjwrK_0tU6fGlsFLnS2YnWrbw0lU1sCTPurh501lZzw");
+        setAuthHeader();
         await axios.delete(`http://localhost:8080/api/campaigns/${id}`);
         getAllCampaigns();
     }
 
     const addCampaign = async (data) => {
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTM4MTMzNywiZXhwIjoxNjk1NDY3NzM3fQ.kjwrK_0tU6fGlsFLnS2YnWrbw0lU1sCTPurh501lZzw");
+        setAuthHeader();
         campaigns.value = [];
         await axios.post('http://localhost:8080/api/campaigns', data);
         campaigns.value = [];
         getAllCampaigns();
     }
     const getTotalCampaigns = async () => {
-        setAuthHeader("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5NTM4MTMzNywiZXhwIjoxNjk1NDY3NzM3fQ.kjwrK_0tU6fGlsFLnS2YnWrbw0lU1sCTPurh501lZzw");
+        setAuthHeader();
         const results = await axios.get('http://localhost:8080/api/campaigns/total');
         totalCampaigns.value = results.data;
     }

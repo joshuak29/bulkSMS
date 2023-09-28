@@ -8,6 +8,8 @@ import org.hibernate.type.descriptor.jdbc.JsonJdbcType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -37,12 +39,17 @@ public class Campaign {
     @JoinColumn(name = "userId")
     private User user;
 
+    // @Enumerated(EnumType.STRING)
+    // @Column(nullable = false)
+    // private Enum<Status> status;
+
     public Campaign() {}
     public Campaign(LocalDateTime schedule, Message message, User user, String numbers) {
         this.schedule = schedule;
         this.message = message;
         this.user = user;
         this.numbers = numbers;
+        // this.status = Status.SCHEDULED;
     }
 
     public Long getId() {
@@ -78,7 +85,15 @@ public class Campaign {
         this.numbers = numbers;
     }
 
-    
+    // public Enum<Status> getStatus() {
+    //     return status;
+    // }
+    // public void deactivate() {
+    //     this.status = Status.CANCELED;
+    // }
+    // public void send() {
+    //     this.status = Status.SENT;
+    // }
 
     @Override
     public int hashCode() {

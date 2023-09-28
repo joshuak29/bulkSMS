@@ -40,10 +40,10 @@ const newIsAdmin = ref(props.user.admin);
 
 const updateUser = (id, user) => {
     userStore.updateUser(props.user.id, {
-        id: props.user.id,
-        name: newName,
-        username: newUsername,
-        password: newPassword || props.user.password
+        name: newName.value,
+        username: newUsername.value,
+        password: newPassword.value || props.user.password,
+        isAdmin: newIsAdmin.value.toString()
     })
 }
 

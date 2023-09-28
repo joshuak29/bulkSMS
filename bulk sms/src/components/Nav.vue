@@ -4,7 +4,7 @@
 
         <ul class="p-4 font-semibold text-gray-500 text-xl flex flex-col gap-4">
             <li class="move-on-hover"><router-link :to="{name: 'new'}"><font-awesome-icon icon="fa-solid fa-paper-plane" class="mr-4"/>New SMS</router-link></li>
-            <li class="move-on-hover"><router-link :to="{name: 'users'}"><font-awesome-icon icon="fa-solid fa-users" class="mr-4"/>Users</router-link></li>
+            <li class="move-on-hover" v-if="showUsers"><router-link :to="{name: 'users'}"><font-awesome-icon icon="fa-solid fa-users" class="mr-4"/>Users</router-link></li>
             <li class="move-on-hover"><router-link :to="{name: 'history'}"><font-awesome-icon icon="fa-solid fa-chart-simple" class="mr-4"/>Dashboard</router-link></li>
             <!-- <li class="move-on-hover"><font-awesome-icon icon="fa-solid fa-chart-simple" class="mr-4"/>Dashboard</li> -->
         </ul>
@@ -16,6 +16,7 @@
     </div>
 </template>
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -24,6 +25,10 @@ const authStore = useAuthStore();
 const logout = () => {
     authStore.logout();
 }
+
+const showUsers = computed(() => {
+    return authStore.isAdmin();
+})
 </script>
 <style scoped>
 .move-on-hover {

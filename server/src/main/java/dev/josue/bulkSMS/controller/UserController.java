@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.josue.bulkSMS.auth.RegisterRequest;
 import dev.josue.bulkSMS.entity.User;
 import dev.josue.bulkSMS.service.UserService;
 import dev.josue.bulkSMS.utils.UserUtils;
@@ -119,6 +120,12 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+    // @PutMapping("/{id}")
+    // public void putId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id, @RequestBody RegisterRequest user) {
+    //             System.out.println(token);
+    //             System.out.println(id);
+    //             System.out.println(user);
+    //         };
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletetUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
