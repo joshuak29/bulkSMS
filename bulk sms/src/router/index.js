@@ -4,43 +4,66 @@ import Users from '@/components/main/Users.vue'
 import Dashboard from '@/components/main/dashboard/Dashboard.vue'
 import Login from '@/components/Login.vue'
 
+import { useAuthStore } from '@/stores/authStore'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/new',
       name: 'new',
-      component: NewSMS
+      component: NewSMS,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/users',
       name: 'users',
-      component: Users
+      component: Users,
+      meta: {
+        auth: true,
+        admin: true
+      }
     },
     {
       path: '/Dashboard',
       name: 'history',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/',
       name: 'home',
-      redirect: {name: 'login'}
+      redirect: { name: 'login' }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        auth: false
+      }
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
   ]
+
 })
 
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  if (!to.meta.auth && authStore.isAuthenticated()) {
+    console.log("failed not authenticated")
+    next({ name: "new" });
+  } else if (to.meta.auth && to.meta.admin && (!authStore.isAuthenticated() || !authStore.isAdmin())) {
+    next(from.fullPath);
+  } else if (to.meta.auth && !authStore.isAuthenticated()) {
+    next({ name: "login" });
+  }
+  else {
+    next();
+  }
+})
 export default router

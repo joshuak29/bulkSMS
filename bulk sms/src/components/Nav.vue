@@ -17,11 +17,12 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/authStore';
 
 const router = useRouter()
-
+const authStore = useAuthStore();
 const logout = () => {
-    router.push({name: 'login'})
+    authStore.logout();
 }
 </script>
 <style scoped>

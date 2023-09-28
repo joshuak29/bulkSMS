@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 
 
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 
 import setAuthHeader from "@/utils/setAuthHeader";
 
@@ -24,11 +24,26 @@ export const useAuthStore = defineStore('auth', () => {
 
             localStorage.setItem('token', results.data.token);
 
+            await nextTick()
             router.push({ name: 'new' })
+
         } catch (error) {
             console.log(error)
         }
     }
+    const logout = () => {
+        localStorage.removeItem('token');
+        router.push({name: 'login'});
+    }
 
-    return { login };
+    const isAuthenticated = () => {
+        const token = localStorage.getItem('token');
+        return token != null;
+    }
+
+    const isAdmin = () => {
+        return true;
+    }
+
+    return { login, logout, isAuthenticated, isAdmin };
 })
