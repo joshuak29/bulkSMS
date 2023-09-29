@@ -59,7 +59,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         HashMap<String, String> claims = new HashMap<>();
         claims.put("role", "Admin");
-        claims.put("credit", "10000");
+        claims.put("id", "1");
 
         return Jwts
         .builder()

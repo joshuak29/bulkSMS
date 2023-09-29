@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +32,12 @@ public class UserController {
 
     @Autowired
     UserService service;
-    
+
     @Autowired
     UserUtils userUtils;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @PostMapping
     public ResponseEntity<String> addUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
@@ -73,7 +77,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id) {
-        if (userUtils.isAdmin(token)) {
+        if (userUtils.isAdmin(token) || userUtils.isSelf(id, token)) {
             try {
                 User user = service.getUser(id);
                 System.out.println(user);
@@ -91,6 +95,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> putUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id,
             @RequestBody HashMap<String, String> data) {
+        System.out.println(data);
         if (userUtils.isAdmin(token)) {
             try {
                 boolean isAdminBool = Boolean.parseBoolean(data.get("isAdmin"));
@@ -101,8 +106,17 @@ public class UserController {
                 if (!UserUtils.isUser(data)) {
                     throw new IllegalArgumentException("Arguments can't be null");
                 }
+                
+                String password;
+                if (data.get("password").equals(user.getPassword())) {
 
-                User newUser = new User(data.get("name"), data.get("username"), data.get("password"), isAdminBool);
+                    password = data.get("password");
+                } else {
+                    password = encoder.encode(data.get("password"));
+                }
+
+                User newUser = new User(data.get("name"), data.get("username"), password,
+                        isAdminBool);
 
                 service.updateUser(id, newUser);
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -120,12 +134,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
-    // @PutMapping("/{id}")
-    // public void putId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id, @RequestBody RegisterRequest user) {
-    //             System.out.println(token);
-    //             System.out.println(id);
-    //             System.out.println(user);
-    //         };
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletetUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,

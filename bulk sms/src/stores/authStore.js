@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const isAdmin = () => {
-        return false;
+        return true;
     }
 
     return { login, logout, isAuthenticated, isAdmin };
