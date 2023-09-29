@@ -45,6 +45,7 @@
                     <thead class="h-14 border-b">
                         <th>#</th>
                         <th class="text-left">Name</th>
+                        <th class="text-left">Username</th>
                         <th class="text-left">Role</th>
                         <th class="text-left">Joined</th>
                         <th class="text-left">Last Login</th>
@@ -54,6 +55,7 @@
                         <tr v-for="(user, i) in usersStore.users" :key="i">
                             <th>{{ user.id }}</th>
                             <td>{{ user.name}}</td>
+                            <td>{{ user.username}}</td>
                             <td v-if="user.admin">Admin</td>
                             <td v-else>Agent</td>
                             <td>{{ user.joined }}</td>

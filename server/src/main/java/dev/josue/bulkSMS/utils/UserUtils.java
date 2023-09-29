@@ -50,6 +50,16 @@ public class UserUtils {
         return user.getId() == id;
     }
 
+    public boolean isSelf(String username, String token) {
+        String authToken = token.substring(7);
+        String authUsername = jwtService.extractUsername(authToken);
+
+        // User user = userRepo.findByUsername(username).orElseThrow();
+
+        // return user.getId() == id;
+        return username.equals(authUsername);
+    }
+
     public User getUser(String token) {
         String authToken = token.substring(7);
         String username = jwtService.extractUsername(authToken);

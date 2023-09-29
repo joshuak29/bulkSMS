@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import dev.josue.bulkSMS.entity.User;
+import dev.josue.bulkSMS.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,6 +20,9 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+
+    @Autowired
+    UserRepository userRepo;
 
     private static final String SECRET_KEY = "6c603b0b85f64a6dcbea695b0aab9ee17e6e1b07dcdc49e9bb5a478bee078626";
 
@@ -57,9 +63,10 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+        User user = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
         HashMap<String, String> claims = new HashMap<>();
-        claims.put("role", "Admin");
-        claims.put("id", "1");
+        claims.put("role", userDetails.getAuthorities().toString());
+        claims.put("id", user.getId().toString());
 
         return Jwts
         .builder()

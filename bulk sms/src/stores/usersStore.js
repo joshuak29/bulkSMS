@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 
 import axios from 'axios'
-import setAuthHeader from '../utils/setAuthHeader'
+import setAuthHeader from '@/utils/setAuthHeader'
 
 export const useUserStore = defineStore('user', () => {
     const router = useRouter();

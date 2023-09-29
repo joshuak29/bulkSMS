@@ -29,6 +29,10 @@ public class UserService {
         return repo.findAll();
     }
 
+    // public User getUserByUsername(String username) {
+    //     return repo.findByUsername(username).orElseThrow();
+    // }
+
     public Object[] getByName(String name) {
         List<User> byName =  repo.findByName(name);
         // List<User> byUname = repo.findbyUsername(name);

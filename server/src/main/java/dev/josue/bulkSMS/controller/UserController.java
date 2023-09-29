@@ -77,6 +77,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id) {
+        if(!userUtils.isAdmin(token)){ 
+            System.out.println("not admin");
+        }
+
+        if(!userUtils.isSelf(id, token)){ 
+            System.out.println("not self");
+        }
+
         if (userUtils.isAdmin(token) || userUtils.isSelf(id, token)) {
             try {
                 User user = service.getUser(id);
@@ -91,6 +99,23 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+
+    // @GetMapping("/{username}")
+    // public ResponseEntity<User> getUserByUsername(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String username) {
+    //     if (userUtils.isAdmin(token) || userUtils.isSelf(username, token)) {
+    //         try {
+    //             User user = service.getUserByUsername(username);
+    //             System.out.println(user);
+    //             return new ResponseEntity<User>(user, HttpStatus.OK);
+    //         } catch (Exception e) {
+    //             System.out.println(e);
+    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //         }
+    //     } else {
+    //         System.out.println("Unauthorized");
+    //         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    //     }
+    // }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> putUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable Long id,
